@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>kropki</title>
+		<style>
+			input {
+				width: 24px;
+				height: 24px;
+				text-align: center;
+				margin: 4px;
+			}
+		</style>
+		<script>
+			window.onload = () => {
+				//<input type="text" maxlength="2" style="text-transform: uppercase" />
+				const inputs = document.querySelector('#inputs');
+				for (let i = 1; i < 65; i++) {
+					inputs.innerHTML += `<input type="text" maxlength="2" style="text-transform: uppercase" />`;
+					if (i % 8 === 0) inputs.innerHTML += '<br />';
+				}
+
+				let seconds = 0;
+				let lastColor = 0;
+				const colors = ['red', 'green', 'blue', 'aqua', 'yellow', 'pink', 'orange', 'purple'];
+				setInterval(() => {
+					lastColor = 0;
+					document.querySelector('#time').innerHTML = `${++seconds}s`;
+
+					const letters = [];
+					document.querySelectorAll('input').forEach((input) => {
+						input.style.backgroundColor = 'white';
+						if (input.value.length < 1) return;
+						letters.push({ letter: input.value, input });
+					});
+
+					let foundLetters = 0;
+					const ignoreLetters = [];
+					letters.forEach((letter) => {
+						if (ignoreLetters.includes(letter.letter)) return;
+						const allLetters = letters.filter((findLetter) => findLetter.letter === letter.letter);
+						if (allLetters.length > 1) {
+							ignoreLetters.push(letter.letter);
+							allLetters.forEach((foundLetter) => {
+								foundLetter.input.style.backgroundColor = colors[lastColor];
+							});
+							lastColor++;
+							foundLetters++;
+						}
+					});
+					document.querySelector('#found').innerHTML = `${foundLetters}`;
+				}, 1000);
+			};
+		</script>
+	</head>
+	<body>
+		Time: <span id="time">0s</span> <br />
+		Found letters: <span id="found">0</span>
+		<div id="inputs"></div>
+	</body>
+</html>

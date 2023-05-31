@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>matma</title>
+		<script src="index.js"></script>
+		<style>
+			main {
+				display: flex;
+				flex-direction: row;
+				gap: 8px;
+			}
+			.ulamek {
+				display: flex;
+				flex-direction: column;
+				width: 40px;
+			}
+
+			hr {
+				width: 40px;
+			}
+
+			input,
+			select {
+				text-align: center;
+			}
+
+			.srodek {
+				margin-top: 18px;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="ulamek">
+				<input type="text" id="top1" />
+				<hr />
+				<input type="text" id="bottom1" />
+			</div>
+			<div class="ulamek srodek">
+				<input type="text" id="dzialanie" />
+			</div>
+			<div class="ulamek">
+				<input type="text" id="top2" />
+				<hr />
+				<input type="text" id="bottom2" />
+			</div>
+			<div class="ulamek srodek">=</div>
+			<div class="ulamek">
+				<input type="text" id="topWynik" />
+				<hr />
+				<input type="text" id="bottomWynik" />
+			</div>
+		</main>
+		<br />
+		<input type="button" value="Oblicz" onclick="oblicz()" />
+	</body>
+</html>

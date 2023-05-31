@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>kropki</title>
+		<script>
+			document.onpaste = function (event) {
+				var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+				console.log(JSON.stringify(items)); // will give you the mime types
+				for (index in items) {
+					var item = items[index];
+					if (item.kind === 'file') {
+						var blob = item.getAsFile();
+						var reader = new FileReader();
+						reader.onload = function (event) {
+							loadImage(event.target.result);
+						}; // data url!
+						reader.readAsDataURL(blob);
+					}
+				}
+			};
+
+			function loadImage(url) {
+				const img = document.querySelector('#image');
+				img.src = url;
+
+				setTimeout(() => {
+					const canvas = document.querySelector('#canvas');
+					canvas.width = img.width;
+					canvas.height = img.height;
+					canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
+
+					let white = 0;
+					for (let i = 0; i < img.width; i++) {
+						for (let j = 0; j < img.height; j++) {
+							const array = canvas.getContext('2d').getImageData(i, j, 1, 1).data;
+							if (array[0] === 255 && array[1] === 255 && array[2] === 255) white++;
+						}
+					}
+					document.querySelector('#result').innerHTML = `${white / 112} białych pól`;
+				}, 100);
+			}
+		</script>
+	</head>
+	<body>
+		Kliknij CTRL + V, aby wkleić zdjęcie
+		<br />
+		<img id="image" src="" style="display: none" />
+		<canvas id="canvas"></canvas>
+		<br />
+		<div id="result"></div>
+	</body>
+</html>
